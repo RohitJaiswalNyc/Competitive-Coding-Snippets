@@ -1,0 +1,74 @@
+<snippet>
+	<content><![CDATA[
+const int LOG = 20;
+int par[N];
+int binlif[N][LOG];
+int depth[N];
+
+void binlifting(int n){
+	// finding kth ancestor of a node in nlogn preprocessing
+	// k is power of 2
+	forn(i,n){
+		binlif[i][0] = par[i];
+	}
+	for(int i=1;i<LOG;i++){
+		for(int j=0;j<n;j++){
+			int low = binlif[j][i-1];
+			binlif[j][i] = binlif[low][i-1];
+		}
+	}
+}
+
+int findmax(vector<int> b){
+	// returns node with max depth
+	int mx(-1);
+	int ind;
+	forn(i,b.size()){
+		mx = max(mx,depth[b[i]]);
+		if(mx == depth[b[i]]){
+			ind = b[i];
+		}
+	}
+	return ind;
+}
+
+int lca(int u,int v){
+	// lowest common ancestor
+	// watch erichto video if blurry memory
+	int diff = depth[u] - depth[v];
+	// use when you don't know which vertex has max depth
+	if(diff < 0){
+		swap(u,v);
+		diff = abs(diff);
+	}
+	forn(i,LOG){
+		if((diff & (1<<i)) > 0){
+			u = binlif[u][i];
+		}
+	}
+	if(u == v){
+		return u;
+	}
+	for(int i=LOG-1;i>-1;i--){
+		if(binlif[u][i] != binlif[v][i]){
+			u = binlif[u][i];
+			v = binlif[v][i];
+		}
+	}
+	return par[u];
+}
+
+void dfs(int u,int p,int d){
+	par[u] = p;
+	depth[u] = d;
+	for(auto v:adj[u]){
+		if(v == p) continue;
+		dfs(v,u,d+1);
+	}
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>lca</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

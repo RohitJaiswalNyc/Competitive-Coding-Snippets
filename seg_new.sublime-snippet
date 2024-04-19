@@ -1,0 +1,99 @@
+<snippet>
+	<content><![CDATA[
+struct Seg
+{
+	int _n;
+	vector<ll> seg;
+	vector<ll> lazysum;
+
+	// VISUALIZE THIS WITH BINARY TREES
+
+	void type_of_tree(int i){
+		seg[i] = max(seg[2*i],seg[2*i + 1]);
+	}
+	ll return_query(ll fir,ll sec){
+		return max(fir,sec);
+	}
+	void update_node(int i,ll val){
+		seg[i] = max(seg[i],val);
+	}
+
+	// use for lazy propogation
+	void propogate(int index,int left,int right){
+		if(lazysum[index] == 0) return;
+		seg[index] += (right - left + 1) * lazysum[index];
+		if(left != right){
+			lazysum[2*index] += lazysum[index];
+			lazysum[2*index+1] += lazysum[index];
+		}
+		lazysum[index] = 0;
+		return;
+	}
+	ll q(int ql,int qr){
+		return q(1,0,_n-1,ql,qr);
+	}
+	ll q(int index,int left,int right,int ql,int qr){
+		// use for lazy tree
+		propogate(index,left,right);
+		if(left > qr || right < ql) return -oo;
+		if(left >= ql && right <= qr) return seg[index];
+		int mid = left + (right-left) / 2;
+		ll fir = q(2*index,left,mid,ql,qr);
+		ll sec = q(2*index + 1,mid+1,right,ql,qr);
+		return return_query(fir,sec);
+	}
+	// maxTree,1,0,_n,idx,dp[i]-i
+	void ui(int num,ll val){
+		ui(1,0,_n-1,num,val);
+	}
+	//FOR CHECKING NUMBER OF ELEMENTS GREATER THAN TARGET(num)
+	void ui(int index,int s,int e,int num,ll val){
+		if(s == num && e == num){
+			update_node(index,val);
+			return;
+		}
+		if(s > num || e < num) return;
+		int mid = s + (e - s)/2;
+		ui(2*index,s,mid,num,val);
+		ui(2*index+1,mid+1,e,num,val);
+		type_of_tree(index);
+	}
+
+
+	void ur(int ql,int qr,int val){
+		ur(1,0,_n-1,ql,qr,val);
+	}
+	void ur(int index,int left,int right,int ql,int qr,int val){
+		propogate(index,left,right);
+		if(ql > right || qr < left) return;
+		if(ql <= left && qr >= right){
+			seg[index] += (right - left + 1) * val;
+			if(left != right){
+				lazysum[2*index] += val;
+				lazysum[2*index+1] += val;
+			}
+			return;
+		}
+		int mid = left + (right - left)/2;
+		ur(2*index,left,mid,ql,qr,val);
+		ur(2*index+1,mid+1,right,ql,qr,val);
+		type_of_tree(index);
+	}
+
+	void build(int n){
+		_n = 4<<__lg(n);
+		// note about resizing with initial value
+		seg.resize(2*_n,0);
+		// do if using lazy propogation
+		lazysum.resize(2*_n,0);
+
+	}
+	// example of query:
+	// query(1,0,_n-1,ql,qr)
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>seg_new</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

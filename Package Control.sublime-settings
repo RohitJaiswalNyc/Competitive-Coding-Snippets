@@ -1,0 +1,18 @@
+{
+	"bootstrapped": true,
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"Package Control",
+		"SublimeAStyleFormatter",
+		"SublimeLinter",
+		"SublimeLinter-bandit",
+		"SublimeLinter-clang",
+		"SublimeLinter-cppcheck",
+		"SublimeLinter-cpplint",
+		"SublimeLinter-gcc",
+		"SummitLinter",
+	],
+}

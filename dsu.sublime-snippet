@@ -1,0 +1,43 @@
+<snippet>
+	<content><![CDATA[
+
+int pc[N];
+int sz[N];
+
+void dsu(int n){
+	forn(i,n){
+		pc[i] = i;
+		sz[i] = 1;
+	}
+	
+}
+
+int findPar(int u){
+	vector<int> st;
+	while(pc[u] != u){
+		st.pb(u);
+		u = pc[u];
+	}
+	while(st.size() > 0){
+		int tp = st.back();
+		pc[tp] = u;
+		st.pop_back();
+	}
+	return u;
+}
+
+bool merge(int u, int v){
+	int fir = findPar(u);
+	int sec = findPar(v);
+	if(fir == sec) return false;
+	if(sz[fir] < sz[sec]) swap(fir,sec);
+	sz[fir] += sz[sec];
+	pc[sec] = fir; 
+	return true;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>dsu</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

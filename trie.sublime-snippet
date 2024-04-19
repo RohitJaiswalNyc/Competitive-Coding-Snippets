@@ -1,0 +1,54 @@
+<snippet>
+	<content><![CDATA[
+struct node {
+    int to[2];
+    int cnt;
+    node() {
+        to[0] = to[1] = -1;
+        cnt = 0;
+    }
+};
+
+bool bit(int mask, int pos) {
+    return (mask >> pos) & 1;
+}
+
+vector<node> t;
+
+void add(int x) {
+    int v = 0;
+    for (int i = 29; i >= 0; --i) {
+        int b = bit(x, i);
+        if (t[v].to[b] == -1) {
+            t[v].to[b] = sz(t);
+            t.pb(node());
+        }
+        ++t[v].cnt;
+        v = t[v].to[b];
+    }
+    ++t[v].cnt;
+}
+
+void solve(int v, int k, ll& ans) {
+    if (t[v].to[0] != -1 && t[v].to[1] != -1) {
+        ll i = k + 1;
+        ans += (2 * (i / 2) + 1) * t[t[v].to[0]].cnt * t[t[v].to[1]].cnt;
+        ans += 2 * ((i + 1) / 2) * t[t[v].to[0]].cnt * t[t[v].to[1]].cnt;
+    }
+    if (t[v].to[0] == -1 && t[v].to[1] == -1) {
+        ll i = k + 1;
+        ans += i * t[v].cnt * t[v].cnt;
+    }
+    if (t[v].to[0] != -1) {
+        solve(t[v].to[0], k, ans);
+    }
+    if (t[v].to[1] != -1) {
+        solve(t[v].to[1], k + 1, ans);
+    }
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>trie</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

@@ -1,0 +1,21 @@
+<snippet>
+	<content><![CDATA[
+ll binpow(ll a,ll b){
+	ll result = 1;
+	while(b > 0){
+		if(b%2 == 1){
+			result = result * a;
+			result = result % mod;
+		}
+		a = 1LL * a * a;
+		a = a % mod;
+		b/=2;
+	}
+	return result;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>binpow</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

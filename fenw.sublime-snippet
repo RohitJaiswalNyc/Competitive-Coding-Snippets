@@ -1,0 +1,35 @@
+<snippet>
+	<content><![CDATA[
+// number of elements smallers than and equal to query x
+template <typename T>
+class fenwick {
+ public:
+  vector<T> fenw;
+  int n;
+ 
+  fenwick(int _n) : n(_n) {
+    fenw.resize(n);
+  }
+ 
+  void modify(int x, T v) {
+    while (x < n) {
+      fenw[x] += v;
+      x |= (x + 1);
+    }
+  }
+ 
+  T get(int x) {
+    T v{};
+    while (x >= 0) {
+      v += fenw[x];
+      x = (x & (x + 1)) - 1;
+    }
+    return v;
+  }
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>fenw</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

@@ -1,0 +1,92 @@
+<snippet>
+	<content><![CDATA[
+vii ops;
+int pc[N];
+int sz[N];
+vvii g;
+
+
+
+void dsu(int n){
+	forn(i,n){
+		pc[i] = i;
+	}
+	forn(i,n){
+		sz[i] = 1;
+	}
+}
+
+int findPar(int u){
+	while(pc[u] != u){
+		u = pc[u];
+	}
+	return u;
+}
+
+void rollback(int save){
+	while((int)sz(ops) != save){
+		int u = ops.back().f;
+		int v = ops.back().s;
+		if(u >= 0){
+			sz[u] = v;
+		}
+		else{
+			pc[~u] = v;
+		}
+		ops.pop_back();
+	}
+}
+
+void merge(int u, int v){
+	int fir = findPar(u);
+	int sec = findPar(v);
+	if(fir != sec){
+		if(sz[fir] < sz[sec]) swap(fir,sec);
+		ops.eb(~sec,pc[sec]);
+		ops.eb(fir,sz[fir]);
+		sz[fir] += sz[sec];
+		pc[sec] = fir; 
+	}
+}
+ll ans;
+
+void dfs(int l,int h){
+	if(l == h){
+		for(pii x:g[l]){
+			int u = findPar(x.f);
+			int v = findPar(x.s);
+			// cout << u << " " << v << " " << sz[u] << " " << sz[v] << endl;
+			ans += 1LL*sz[u]*sz[v];
+		}
+		return;
+	}
+	int m = (h+l)>>1;
+	{
+		// do right and dfs left
+		int save = sz(ops);
+		for(int i=m+1;i<=h;i++){
+			for(pii x:g[i]){
+				merge(x.f,x.s);
+			}
+		}
+		dfs(l,m);
+		rollback(save);
+	}
+	{
+		// do left and dfs right
+		int save = sz(ops);
+		for(int i=l;i<=m;i++){
+			for(pii x:g[i]){
+				merge(x.f,x.s);
+			}
+		}
+		dfs(m+1,h);
+		rollback(save);
+	}
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>persistent_dsu</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

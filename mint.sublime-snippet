@@ -1,0 +1,175 @@
+<snippet>
+	<content><![CDATA[
+
+// use normal operations with this datatype mint
+
+int euclid(int x, int y, int &ax, int &ay) {
+  if (y == 0) {
+    ax = 1; ay = 0;
+    return x;
+  }
+  int b;
+  int g = euclid(y, x % y, b, ax);
+  ay = b - (x / y) * ax;
+  return g;
+}
+
+int invMod(int a, int mod) {
+  int x, y;
+  int g = euclid(mod, a, y, x);
+  assert(g == 1);
+  x %= mod; if (x < 0) x += mod;
+  return x;
+}
+
+ll binpow(ll a,int b){
+  ll result = 1;
+  while(b > 0){
+    if(b%2 == 1){
+      result = result * a;
+      result = result % MOD;
+    }
+    a = 1LL * a * a;
+    a = a % MOD;
+    b/=2;
+  }
+  return result;
+}
+
+template<int M>
+struct mint_t {
+  int v;
+  
+  mint_t() = default;
+  mint_t(int v) : v(v % M) { if (this->v < 0) this->v += M; }
+  mint_t(ll v) : v(v % M) { if (this->v < 0) this->v += M; }
+  mint_t(mint_t<M> const& b) = default;
+ 
+  mint_t& operator = (mint_t const& b) = default;
+ 
+  mint_t& operator += (mint_t b) { v += b.v; if (v >= M) v -= M; return *this; }
+  mint_t& operator -= (mint_t b) { v -= b.v; if (v < 0) v += M; return *this; }
+  mint_t& operator *= (mint_t b) { v = 1LL * v * b.v % M; return *this; }
+  mint_t& operator /= (mint_t b) { return *this *= invMod(b.v, M);}
+ 
+  mint_t operator - () const { return mint_t(v == 0 ? 0 : M - v); }
+ 
+  mint_t& operator ++() { if (++v == M) v = 0; return *this; }
+  mint_t& operator --() { if (v == 0) v = M - 1; else --v; return *this; }
+  mint_t operator ++(int) { mint_t a = *this; ++*this; return a; }
+  mint_t operator --(int) { mint_t a = *this; --*this; return a; }
+ 
+  operator int() const { return v; }
+};
+ 
+template<int M> mint_t<M> operator + (mint_t<M> a, mint_t<M> b) { return a += b; }
+template<int M> mint_t<M> operator - (mint_t<M> a, mint_t<M> b) { return a -= b; }
+template<int M> mint_t<M> operator * (mint_t<M> a, mint_t<M> b) { return a *= b; }
+template<int M> mint_t<M> operator / (mint_t<M> a, mint_t<M> b) { return a /= b; }
+ 
+template<int M> mint_t<M> operator + (mint_t<M> a, int b) { return a += b; }
+template<int M> mint_t<M> operator - (mint_t<M> a, int b) { return a -= b; }
+template<int M> mint_t<M> operator * (mint_t<M> a, int b) { return a *= b; }
+template<int M> mint_t<M> operator / (mint_t<M> a, int b) { return a /= b; }
+ 
+template<int M> mint_t<M> operator + (int a, mint_t<M> b) { mint_t<M> aa = a; return aa += b; }
+template<int M> mint_t<M> operator - (int a, mint_t<M> b) { mint_t<M> aa = a; return aa -= b; }
+template<int M> mint_t<M> operator * (int a, mint_t<M> b) { mint_t<M> aa = a; return aa *= b; }
+template<int M> mint_t<M> operator / (int a, mint_t<M> b) { mint_t<M> aa = a; return aa /= b; }
+ 
+template<int M> mint_t<M> operator + (ll a, mint_t<M> b) { mint_t<M> aa = a; return aa += b; }
+template<int M> mint_t<M> operator - (ll a, mint_t<M> b) { mint_t<M> aa = a; return aa -= b; }
+template<int M> mint_t<M> operator * (ll a, mint_t<M> b) { mint_t<M> aa = a; return aa *= b; }
+template<int M> mint_t<M> operator / (ll a, mint_t<M> b) { mint_t<M> aa = a; return aa /= b; }
+ 
+template<int M> mint_t<M> operator + (mint_t<M> a, ll b) { return a += b; }
+template<int M> mint_t<M> operator - (mint_t<M> a, ll b) { return a -= b; }
+template<int M> mint_t<M> operator * (mint_t<M> a, ll b) { return a *= b; }
+template<int M> mint_t<M> operator / (mint_t<M> a, ll b) { return a /= b; }
+ 
+template<int M> bool operator == (mint_t<M> a, mint_t<M> b) { return a.v == b.v; }
+template<int M> bool operator != (mint_t<M> a, mint_t<M> b) { return a.v != b.v; }
+template<int M> bool operator < (mint_t<M> a, mint_t<M> b) { return a.v < b.v; }
+template<int M> bool operator > (mint_t<M> a, mint_t<M> b) { return a.v > b.v; }
+template<int M> bool operator <= (mint_t<M> a, mint_t<M> b) { return a.v <= b.v; }
+template<int M> bool operator >= (mint_t<M> a, mint_t<M> b) { return a.v >= b.v; }
+template<int M> bool operator == (mint_t<M> a, int b) { return a == mint_t<M>(b); }
+template<int M> bool operator != (mint_t<M> a, int b) { return a != mint_t<M>(b); }
+template<int M> bool operator < (mint_t<M> a, int b) { return a < mint_t<M>(b); }
+template<int M> bool operator > (mint_t<M> a, int b) { return a > mint_t<M>(b); }
+template<int M> bool operator <= (mint_t<M> a, int b) { return a <= mint_t<M>(b); }
+template<int M> bool operator >= (mint_t<M> a, int b) { return a >= mint_t<M>(b); }
+template<int M> bool operator == (int a, mint_t<M> b) { return b == mint_t<M>(a); }
+template<int M> bool operator != (int a, mint_t<M> b) { return b != mint_t<M>(a); }
+template<int M> bool operator < (int a, mint_t<M> b) { return b < mint_t<M>(a); }
+template<int M> bool operator > (int a, mint_t<M> b) { return b > mint_t<M>(a); }
+template<int M> bool operator <= (int a, mint_t<M> b) { return b <= mint_t<M>(a); }
+template<int M> bool operator >= (int a, mint_t<M> b) { return b >= mint_t<M>(a); }
+template<int M> bool operator == (mint_t<M> a, ll b) { return a == mint_t<M>(b); }
+template<int M> bool operator != (mint_t<M> a, ll b) { return a != mint_t<M>(b); }
+template<int M> bool operator < (mint_t<M> a, ll b) { return a < mint_t<M>(b); }
+template<int M> bool operator > (mint_t<M> a, ll b) { return a > mint_t<M>(b); }
+template<int M> bool operator <= (mint_t<M> a, ll b) { return a <= mint_t<M>(b); }
+template<int M> bool operator >= (mint_t<M> a, ll b) { return a >= mint_t<M>(b); }
+template<int M> bool operator == (ll a, mint_t<M> b) { return b == mint_t<M>(a); }
+template<int M> bool operator != (ll a, mint_t<M> b) { return b != mint_t<M>(a); }
+template<int M> bool operator < (ll a, mint_t<M> b) { return b < mint_t<M>(a); }
+template<int M> bool operator > (ll a, mint_t<M> b) { return b > mint_t<M>(a); }
+template<int M> bool operator <= (ll a, mint_t<M> b) { return b <= mint_t<M>(a); }
+template<int M> bool operator >= (ll a, mint_t<M> b) { return b >= mint_t<M>(a); }
+ 
+template<int M> mint_t<M> inv(mint_t<M> a) { return mint_t<M>(invMod(a.v, M)); }
+ 
+namespace std {
+  template<int M>
+  struct hash<mint_t<M>> {
+    size_t operator()(mint_t<M> const& a) const {
+      return hash<int>()(a.v);
+    }
+  };
+}
+ 
+template<int M>
+istream& operator >> (istream &in, mint_t<M> &a) {
+  int x;
+  in >> x;
+  a = x;
+  return in;
+}
+ 
+template<int M>
+ostream& operator << (ostream &out, mint_t<M> a) {
+  return out << a.v;
+}
+ 
+typedef mint_t<MOD> mint;
+
+template<typename T>
+vector<T> getFacts(int n) {
+  vector<T> f(n);
+  f[0] = 1;
+  for (int i = 1; i < n; ++i)
+    f[i] = f[i - 1] * T(i);
+  return f;
+}
+ 
+template<typename T>
+vector<T> getIFacts(vector<T> const& fact) {
+  vector<T> ifact(sz(fact));
+  ifact.back() = T(1) / fact.back();
+  for (int i = sz(fact) - 1; i > 0; --i)
+    ifact[i - 1] = ifact[i] * T(i);
+  return ifact;
+}
+
+
+
+vector<mint> fact = getFacts<mint>(N);
+vector<mint> ifact = getIFacts<mint>(fact);
+mint cnk(int n, int k) { return k < 0 || k > n ? mint(0) : fact[n] * ifact[k] * ifact[n - k]; }
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>mint</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

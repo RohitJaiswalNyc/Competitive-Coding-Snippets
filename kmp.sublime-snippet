@@ -1,0 +1,23 @@
+<snippet>
+	<content><![CDATA[
+// gives the number of matches to the prefix if
+// we only take this as ending point of string
+void kmp(int n,string s){
+	int left[n+10+1][26] = {0};
+	int fail[26] = {0};
+	forn(i,n){
+		int c = s[i] - 'a';
+		int previous = left[i][c];
+		fail[i+1] = previous;
+		left[i][c] = i+1;
+		forn(j,26){
+			left[i+1][j] = left[previous][j];
+		}
+	}
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>kmp</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

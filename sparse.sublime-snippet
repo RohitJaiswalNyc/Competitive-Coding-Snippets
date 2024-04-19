@@ -1,0 +1,30 @@
+<snippet>
+	<content><![CDATA[
+// does constant time range query and prebuild complexity is O(nlogn);
+// used for range min,max,gcd queries where overlap of ranges is acceptable
+
+ll a[250008],n;
+int minsparse[N][13];
+
+void buildsp(){
+	forn(i,n){
+		minsparse[i][0] = a[i];
+	}
+	for(int i=1;i<=13;i++){
+		for(int j=0;j+(1<<i)-1<n;j++){
+			minsparse[j][i] = min(minsparse[j][i-1],minsparse[j+(1<<(i-1))][i-1]);
+		}
+	}
+}
+int query(int low,int high){
+	int range = high - low + 1;
+	int ind = __lg(range);
+	int ans = min(minsparse[low][ind],minsparse[high - (1<<ind) + 1][ind]);
+	return ans;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>sparse</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

@@ -1,0 +1,40 @@
+<snippet>
+	<content><![CDATA[
+// to find if substring(l,r) of the 
+// original string is a palindrome
+struct manacher
+{
+	vector<char> a;
+	vi f,g,d;
+	manacher(int n,string &s) {
+		n = 2*n|1;
+		f.resize(n);g.resize(n);d.resize(n);a.resize(n);
+		forn(i,sz(s)){
+			a[(i+1)<<1] = s[i];
+		}
+		int l=0,r=-1;
+		forn1(i,n) {
+			int &k=d[i];
+			k=i>r?1:min(d[l+r-i],r-i+1);
+			while(a[i-k]==a[i+k])k++;
+			if(i+k-1>r)r=i+k-1,l=i-k+1;
+		}
+		forn1(i,n/2) f[i]=(d[i<<1]-1)>>1;
+		forn1(i,n/2) g[i]=(d[i<<1|1])>>1;
+	}
+	// initialize with 2*n+1
+	bool chk(int l,int r) {
+		l++;r++;// 0-based indexing
+		if((r-l+1)&1) {
+			return f[(l+r)>>1]*2+1>=r-l+1;
+		} else {
+			return g[(l+r)>>1]*2>=r-l+1;
+		}
+	}
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>manacher</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

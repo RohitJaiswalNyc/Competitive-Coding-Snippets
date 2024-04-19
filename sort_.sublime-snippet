@@ -1,0 +1,11 @@
+<snippet>
+	<content><![CDATA[
+inline bool cmp(int u, int v){
+	return f[u] > f[v];
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>sort_</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

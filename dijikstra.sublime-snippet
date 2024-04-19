@@ -1,0 +1,36 @@
+<snippet>
+	<content><![CDATA[
+ll dist[n+1][n+1];
+forn1(i,n){
+	forn1(j,n){
+		dist[i][j] = -1;
+	}
+	dist[i][i] = 0;
+}
+forn1(i,n){
+	bool vis[n+1] = {0};
+	vis[i] = 1;
+	priority_queue<pll,vector<pll>,greater<pll>> pq;
+	pq.push({0,i});
+	while(!pq.empty()){
+		int tp = pq.top().s;
+		ll w = pq.top().f;
+		pq.pop();
+		if(vis[tp] == 0){
+			vis[tp] = 1;
+			dist[i][tp] = w;
+		}
+		for(auto x:a[tp]){
+			if(vis[x.f] == 0){
+				// cout << x.f << " " << w+x.s << endl; 
+				pq.push({w+x.s,x.f});
+			}
+		}
+	}
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>dijikstra</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

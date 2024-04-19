@@ -1,0 +1,29 @@
+<snippet>
+	<content><![CDATA[
+const int N = 5005;
+ll knapsack(vector<int>& subtree){
+	bitset<N> b;
+	b[0] = 1;
+
+	forn(i,subtree.size()){
+		
+		b |= (b<<subtree[i]);
+	}
+	ll sum(0);
+	forn(i,subtree.size()){
+		sum += subtree[i];
+	}
+	ll best(0);
+	forn(i,N){
+		if(b[i]){
+			best = max(best,1LL*(sum-i)*i);
+		}
+	}
+	return best;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>knapsack</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

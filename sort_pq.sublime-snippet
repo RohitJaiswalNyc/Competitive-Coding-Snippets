@@ -1,0 +1,15 @@
+<snippet>
+	<content><![CDATA[
+struct priority_queue_sort{
+	bool operator()(const pll& below,
+	                const pll& above)
+	{
+	    return (above.f < below.f);
+	}
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>sort_pq</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

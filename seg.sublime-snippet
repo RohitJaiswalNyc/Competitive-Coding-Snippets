@@ -1,0 +1,39 @@
+<snippet>
+	<content><![CDATA[
+vector<ll> maxTree;
+
+//QUERY FOR MAX
+// VISUALIZE THIS WITH BINARY TREES
+
+ll query(vector<ll> &tree,int node,int left,int right,int ql,int qr){
+	if(left > qr || right < ql) return -oo;
+	if(left >= ql && right <= qr) return tree[node];
+	int mid = left + (right-left) / 2;
+	return max(query(tree,2*node,left,mid,ql,qr),query(tree,2*node + 1,mid+1,right,ql,qr));
+}
+
+// maxTree,1,0,_n,idx,dp[i]-i
+
+//FOR CHECKING NUMBER OF ELEMENTS GREATER THAN TARGET(num)
+ll update(vector<ll> &Tree,int index,int s,int e,int num,ll val){
+	if(s == num && e == num) return Tree[index] = max(Tree[index],val);
+	if(s > num || e < num) return Tree[index];
+	int mid = s + (e - s)/2;
+	return Tree[index] = max(update(Tree,2*index,s,mid,num,val),update(Tree,2*index+1,mid+1,e,num,val));
+}
+
+int _n = n;
+while(__builtin_popcount(_n) != 1){
+	_n++;
+}
+//RESIZING SUB
+maxTree.resize(2*_n,-oo);
+
+
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>Seg</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

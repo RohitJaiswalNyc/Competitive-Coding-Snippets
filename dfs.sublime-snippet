@@ -1,0 +1,28 @@
+<snippet>
+	<content><![CDATA[
+vector<int> st;
+st.eb(1);
+int mp[n+1] = {0};
+int vis[n+1] = {0};
+vis[1] = 1;
+while(st.size() > 0){
+	int tp = st.back();
+	if(mp[tp] < (int)adj[tp].size()){
+		int fir = adj[tp][mp[tp]];
+		mp[tp]++;
+		if(vis[fir] == 0){
+			st.eb(fir);
+			vis[fir] = 1;
+			
+		}
+	}
+	else{
+		st.pop_back();
+	}
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>dfs</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

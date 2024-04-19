@@ -1,0 +1,22 @@
+<snippet>
+	<content><![CDATA[
+// number of elements greater than or equal to x
+int f[N];
+
+void upd(int x){
+	for (int i = x; i >= 0; i = (i & (i + 1)) - 1)
+		++f[i];
+}
+
+int get(int x){
+	int res = 0;
+	for (int i = x; i < N; i |= i + 1)
+		res += f[i];
+	return res;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>rev_fenw</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

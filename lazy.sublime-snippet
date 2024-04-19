@@ -1,0 +1,53 @@
+<snippet>
+	<content><![CDATA[
+const int N = 2e5 + 5;
+vector<ll> lazTree;
+vector<ll> lazsm;
+
+void propogate(int node,int left,int right){
+	if(lazsm[node] == 0) return;
+	lazTree[node] += (right - left + 1) * lazsm[node];
+	lazTree[node] %= 26;
+	if(left != right){
+		lazsm[2*node] += lazsm[node];
+		lazsm[2*node+1] += lazsm[node];
+	}
+	lazsm[node] = 0;
+	return;
+}
+
+ll query(int node,int left,int right,int ql,int qr){
+	propogate(node,left,right);
+	if(ql > right || qr < left) return 0;
+	if(ql <= left && qr >= right){return lazTree[node];}
+	int mid = left + (right - left)/2;
+	return query(2*node,left,mid,ql,qr)+query(2*node+1,mid+1,right,ql,qr);
+}
+
+ll update(int node,int left,int right,int ql,int qr,int val){
+	propogate(node,left,right);
+	if(ql > right || qr < left) return lazTree[node];
+	if(ql <= left && qr >= right){
+		// cout << node << " " << left << " " << right << " " << val << " " << lazTree[node] << " ";
+		lazTree[node] += (right - left + 1) * val;
+		lazTree[node] %= 26;
+		if(left != right){
+			lazsm[2*node] += val;
+			lazsm[2*node+1] += val;
+		}
+		// cout << node << " " << left << " " << right << " " << up << endl;
+		return lazTree[node];
+	}
+
+	int mid = left + (right - left)/2;
+	ll fin = update(2*node,left,mid,ql,qr,val)+update(2*node+1,mid+1,right,ql,qr,val);
+	lazTree[node] += fin;
+	lazTree[node] %= 26;
+	return fin;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>lazytree</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

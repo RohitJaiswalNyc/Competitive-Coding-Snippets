@@ -1,0 +1,22 @@
+<snippet>
+	<content><![CDATA[
+auto rec = [&](auto rec, int l, int r, int x) {
+	if (l == r) {
+	  return;
+	}
+	for (int i = l; i < r; i++) {
+	  if (dp[l][r] == dp[l][i] + dp[i + 1][r] + cost[l][r]) {
+	    ans[i] = x;
+	    rec(rec, l, i, i + 1);
+	    rec(rec, i + 1, r, i + 1);
+	    return;
+	  }
+	}
+};	
+rec(rec, 0, n, 0);
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>inline_function</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

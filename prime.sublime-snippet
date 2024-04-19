@@ -1,0 +1,16 @@
+<snippet>
+	<content><![CDATA[
+bool prime(ll x){
+	if(x == 2 || x == 3) return true;
+	for(ll i=2;1LL*i*i<=x;i++){
+		if(x % i == 0) return false;
+	}
+	return true;
+}
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>prime</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

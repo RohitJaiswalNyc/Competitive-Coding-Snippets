@@ -1,0 +1,12 @@
+{
+	"ignored_packages":
+	[
+		"Vintage",
+	],
+	"font_size": 20,
+	"color_scheme": "Monokai.sublime-color-scheme",
+	"dark_color_scheme": "Mariana.sublime-color-scheme",
+	"light_color_scheme": "Breakers.sublime-color-scheme",
+	"theme": "Adaptive.sublime-theme",
+	"index_files": true,
+}

@@ -1,0 +1,19 @@
+<snippet>
+	<content><![CDATA[
+vi kmp(string &s){
+	int n = sz(s);
+	vi pre(n,0);
+	forn1(i,n-1){
+		int k = pre[i-1];
+		while(k > 0 && s[k] != s[i]) k = pre[k-1];
+		if(s[k] == s[i]) k++;
+		pre[i] = k; 
+	}
+	return pre;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>kmp_simp</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

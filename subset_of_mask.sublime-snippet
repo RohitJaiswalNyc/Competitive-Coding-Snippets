@@ -1,0 +1,16 @@
+<snippet>
+	<content><![CDATA[
+// subset of mask
+forn(i,1<<5){
+	cout << i << endl;
+	for(int j=i;j>0;j = (j-1)&i){
+		cout << j << " ";
+	}
+	en;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>subset_of_mask</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

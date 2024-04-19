@@ -1,0 +1,55 @@
+<snippet>
+	<content><![CDATA[
+struct SegmentTree {
+    int n;
+    vector<ll> t;
+
+
+    ll merge(ll x, ll y) {
+	    return max(x, y);
+	}
+
+    void build(int v, int tl, int tr) {
+        if (tl == tr) {
+            t[v] = -oo;
+            return;
+        }
+        int tm = (tl + tr) / 2;
+        build(2 * v, tl, tm);
+        build(2 * v + 1, tm + 1, tr);
+        t[v] = merge(t[2 * v], t[2 * v + 1]);
+    }
+    SegmentTree(int _n) {
+        n = _n;
+        t.resize(4 * n);
+        build(1, 1, n);
+    }
+    void upd(int v, int tl, int tr, int pos, ll all) {
+        if (tl == tr) {
+            t[v] = max(t[v], all);
+            return;
+        }
+        int tm = (tl + tr) / 2;
+        if (pos <= tm) upd(2 * v, tl, tm, pos, all);
+        else upd(2 * v + 1, tm + 1, tr, pos, all);
+        t[v] = merge(t[2 * v], t[2 * v + 1]);
+    }
+    ll get(int v, int tl, int tr, int l, int r) {
+        if (l > r) return -oo;
+        if (tl == l && tr == r) {
+            return t[v];
+        }
+        int tm = (tl + tr) / 2;
+        if (r <= tm) return get(2 * v, tl, tm, l, r);
+        else if (l > tm) return get(2 * v + 1, tm + 1, tr, l, r);
+        else {
+            return merge(get(2 * v, tl, tm, l, tm), get(2 * v + 1, tm + 1, tr, tm + 1, r));
+        }
+    }
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>segmentStruct</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>
