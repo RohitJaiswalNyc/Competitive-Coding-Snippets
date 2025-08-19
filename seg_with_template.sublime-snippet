@@ -1,0 +1,83 @@
+<snippet>
+	<content><![CDATA[
+template<class Info>
+struct Seg
+{
+  int _n;
+  vector<Info> seg;
+
+  // VISUALIZE THIS WITH BINARY TREES
+
+  void type_of_tree(int i){
+    seg[i] = seg[2*i]+seg[2*i + 1];
+  }
+  
+  void update_node(int i,pll &val){
+    seg[i] = Info(val);
+   }
+
+  
+  int q(){
+    return max(seg[1].ans1,seg[1].ans2);
+  }
+  
+  // maxTree,1,0,_n,idx,dp[i]-i
+  void ui(int num,pll &val){
+    ui(1,0,_n-1,num,val);
+  }
+  //FOR CHECKING NUMBER OF ELEMENTS GREATER THAN TARGET(num)
+  void ui(int index,int s,int e,int num,pll &val){
+    if(s == num && e == num){
+      update_node(index,val);
+      return;
+    }
+    if(s > num || e < num) return;
+    int mid = s + (e - s)/2;
+    ui(2*index,s,mid,num,val);
+    ui(2*index+1,mid+1,e,num,val);
+
+    type_of_tree(index);
+  }
+
+
+  void build(int n,vll &x){
+    _n = 4<<__lg(n);
+    // note about resizing with initial value
+    seg.resize(2*_n,Info());
+    forn(i,n){
+      seg[i+_n] = Info(x[i]);
+    }
+    for(int i=_n-1;i>0;i--){
+      type_of_tree(i);
+    }
+  }
+  // example of query:
+  // query(1,0,_n-1,ql,qr)
+  // example of declaration of seg_tree
+  // Seg<Info> seg;
+};
+
+struct Info{
+  int min1,min2,max1,max2,ans1,ans2;
+
+  Info(): min1(inf),min2(inf),max1(-inf),max2(-inf),ans1(0),ans2(0){}
+
+  Info(pll x): min1(x.f),min2(x.s),max1(x.f),max2(x.s),ans1(0),ans2(0) {}
+};
+
+Info operator+(const Info &a,const Info &b){
+  Info res;
+  res.min1 = min(a.min1,b.min1);
+  res.min2 = min(a.min2,b.min2);
+  res.max1 = max(a.max1,b.max1);
+  res.max2 = max(a.max2,b.max2);
+  res.ans1 = max({a.ans1,b.ans1,b.max1-a.min1});
+  res.ans2 = max({a.ans2,b.ans2,a.max2-b.min2});
+  return res;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>seg with template</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

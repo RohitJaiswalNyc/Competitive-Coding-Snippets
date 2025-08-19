@@ -1,38 +1,22 @@
 <snippet>
 	<content><![CDATA[
 vector<int> z_func(string &s) {
-    int n = s.size(), L = -1, R = -1;
-    vector<int> z(n);
-    z[0] = n;
-    for(int i = 1; i < n; i++) {
-        if(i <= R){
-        	// 3rd
-        	// if updated R value is >= i then
-        	// we dont really need to check for
-        	// these indexes and just check 
-        	// how much i-Lth segment coincides
-        	// with the prefix
-        	// and R-i+1 gives how much distance
-        	// we are from R so the least of both of
-        	// them gives me the z for i
-            z[i] = min(z[i - L], R - i + 1);
-        }
-        while(i + z[i] < n && s[i + z[i]] == s[z[i]])
-        	// 1st
-        	// this check how much of the segment 
-        	// is similiar to the prefix
-            z[i]++;
-        if(i + z[i] - 1 > R) {
-        	// 2nd
-        	// this then updates the L and R values
-        	// these values are the left and 
-        	// right of the subsegment that is 
-        	// same as prefix
-            L = i;
-            R = i + z[i] - 1;
-        }
+  // if i <= R then the substr[L,R] matches [0,R-L] thus i-L 
+  // is already in prefix and z value can be copied from there 
+  int n = s.size(), L = 0, R = 0;
+  vi z(n);
+  z[0] = n;   
+  for(int i = 1; i < n; i++) {
+    if(i < R){
+      z[i] = min(z[i - L], R - i);
     }
-    return z;
+    while(i + z[i] < n && s[i + z[i]] == s[z[i]]) z[i]++;
+    if(i + z[i] > R) {
+      L = i;
+      R = i + z[i];
+    }
+  }
+  return z;
 }
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
