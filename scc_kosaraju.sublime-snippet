@@ -1,0 +1,74 @@
+<snippet>
+	<content><![CDATA[
+struct scc_kosa{
+  vi st,vis,comp;
+  vvi adj,radj;
+  int curComp = 0;
+  int _n;
+
+  void init(int n){
+    _n = n;
+    vis.resize(n);
+    comp.resize(n);
+    adj.resize(n,{});
+    radj.resize(n,{});
+  }
+
+  void init(vvi nadj){
+    int n = sz(nadj);
+    adj = nadj;
+    forn(u,n){
+      for(int v:adj[u]){
+        radj[v].pb(u);
+      }
+    }
+  }
+
+  void addedge(int u,int v){
+    adj[u].pb(v);
+    radj[v].pb(u);
+  }
+
+  void dfs(int u,int p){
+    if(vis[u]) return;
+    vis[u] = 1;
+    for(auto v:adj[u]){
+      dfs(v,u);
+    }
+    st.pb(u);
+  }
+
+
+  void dfs2(int u,int p){
+    if(vis[u]) return;
+    vis[u] = 1;
+    comp[u] = comp[p];
+    for(auto v:radj[u]){
+      dfs2(v,u);
+    }
+  }
+
+  vi build(){
+    forn(i,_n){
+      if(!vis[i]){
+        dfs(i,i);
+      }
+    }
+    reverse(all(st));
+    forn(i,_n) vis[i] = 0;
+    for(int x:st){
+      if(!vis[x]){
+        comp[x] = curComp++;
+        dfs2(x,x);
+      }
+    }
+    return comp;
+  }
+
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>scc_kosa</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

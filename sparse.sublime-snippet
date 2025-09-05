@@ -3,14 +3,14 @@
 // does constant time range query and prebuild complexity is O(nlogn);
 // used for range min,max,gcd queries where overlap of ranges is acceptable
 
-ll a[250008],n;
-int minsparse[N][13];
+ll a[N],n;
+int minsparse[N][20];
 
 void buildsp(){
 	forn(i,n){
 		minsparse[i][0] = a[i];
 	}
-	for(int i=1;i<=13;i++){
+	for(int i=1;i<20;i++){
 		for(int j=0;j+(1<<i)-1<n;j++){
 			minsparse[j][i] = min(minsparse[j][i-1],minsparse[j+(1<<(i-1))][i-1]);
 		}

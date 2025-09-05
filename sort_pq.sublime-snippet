@@ -1,10 +1,10 @@
 <snippet>
 	<content><![CDATA[
 struct priority_queue_sort{
-	bool operator()(const pll& below,
-	                const pll& above)
+	bool operator()(const pll& left,
+	                const pll& right)
 	{
-	    return (above.f < below.f);
+	    return (right.f < left.f);
 	}
 };
 ]]></content>
